@@ -442,6 +442,25 @@ class CapacitorGoogleMap(
         }
     }
 
+    fun rotateMarker(id: String, degree:Float, callback: (error: GoogleMapsError?) -> Unit) {
+        try {
+            googleMap ?: throw GoogleMapNotAvailable()
+
+            var marker = markers[id]
+            marker ?: throw MarkerNotFoundError()
+
+            CoroutineScope(Dispatchers.Main).launch {
+                degree ?: throw InvalidArgumentsError("Rotation degree is missing")
+
+                marker.googleMapMarker?.rotation = degree
+
+                callback(null)
+            }
+        } catch (e: GoogleMapsError) {
+            callback(e)
+        }
+    }
+
     fun removeMarker(id: String, callback: (error: GoogleMapsError?) -> Unit) {
         try {
             googleMap ?: throw GoogleMapNotAvailable()

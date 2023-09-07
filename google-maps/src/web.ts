@@ -34,6 +34,7 @@ import type {
   AddPolylinesArgs,
   RemovePolylinesArgs,
   MoveMarkerArgs,
+  RotateMarkerArgs,
 } from './implementation';
 
 export class CapacitorGoogleMapsWeb
@@ -314,6 +315,11 @@ export class CapacitorGoogleMapsWeb
   }
 
   async moveMarker(_args: MoveMarkerArgs): Promise<void> {
+    // this.maps[_args.id].markers[_args.markerId].setMap(null);
+    // delete this.maps[_args.id].markers[_args.markerId];
+  }
+
+  async rotateMarker(_args: RotateMarkerArgs): Promise<void> {
     // this.maps[_args.id].markers[_args.markerId].setMap(null);
     // delete this.maps[_args.id].markers[_args.markerId];
   }

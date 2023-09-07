@@ -145,6 +145,11 @@ export interface MoveMarkerArgs {
   position: LatLng;
   markerId: string;
 }
+export interface RotateMarkerArgs {
+  id: string;
+  degree: Number;
+  markerId: string;
+}
 export interface MapBoundsArgs {
   id: string;
   mapBounds: {
@@ -180,6 +185,7 @@ export interface CapacitorGoogleMapsPlugin extends Plugin {
   addMarker(args: AddMarkerArgs): Promise<{ id: string }>;
   addMarkers(args: AddMarkersArgs): Promise<{ ids: string[] }>;
   moveMarker(args: MoveMarkerArgs): Promise<void>;
+  rotateMarker(args: RotateMarkerArgs): Promise<void>;
   removeMarker(args: RemoveMarkerArgs): Promise<void>;
   removeMarkers(args: RemoveMarkersArgs): Promise<void>;
   addPolygons(args: AddPolygonsArgs): Promise<{ ids: string[] }>;

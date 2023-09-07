@@ -410,15 +410,24 @@ export class GoogleMap {
    * @returns
    */
   async moveMarker(markerId: string, position:LatLng): Promise<void> {
-    console.log("moveMarker", {
-      id: this.id,
-      markerId: markerId,
-      position: position
-    });
     await CapacitorGoogleMaps.moveMarker({
       id: this.id,
       markerId: markerId,
       position: position
+    });
+  }
+
+  /**
+   * Rotates a marker
+   *
+   * @param markers
+   * @returns
+   */
+  async rotateMarker(markerId: string, degree:Number): Promise<void> {
+    await CapacitorGoogleMaps.rotateMarker({
+      id: this.id,
+      markerId: markerId,
+      degree
     });
   }
 
