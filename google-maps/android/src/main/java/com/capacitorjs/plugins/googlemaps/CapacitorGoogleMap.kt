@@ -848,6 +848,10 @@ class CapacitorGoogleMap(
             }
         }
 
+        if(marker.iconAnchor !=null && !marker.iconAnchor?.x?.isNaN()!! && !marker.iconAnchor?.y?.isNaN()!!) {
+            markerOptions.anchor(marker.iconAnchor!!.x, marker.iconAnchor!!.y)
+        }
+
         marker.markerOptions = markerOptions
 
         return markerOptions
