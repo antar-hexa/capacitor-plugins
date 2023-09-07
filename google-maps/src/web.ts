@@ -33,6 +33,7 @@ import type {
   RemoveCirclesArgs,
   AddPolylinesArgs,
   RemovePolylinesArgs,
+  MoveMarkerArgs,
 } from './implementation';
 
 export class CapacitorGoogleMapsWeb
@@ -310,6 +311,11 @@ export class CapacitorGoogleMapsWeb
   async removeMarker(_args: RemoveMarkerArgs): Promise<void> {
     this.maps[_args.id].markers[_args.markerId].setMap(null);
     delete this.maps[_args.id].markers[_args.markerId];
+  }
+
+  async moveMarker(_args: MoveMarkerArgs): Promise<void> {
+    // this.maps[_args.id].markers[_args.markerId].setMap(null);
+    // delete this.maps[_args.id].markers[_args.markerId];
   }
 
   async addPolygons(args: AddPolygonsArgs): Promise<{ ids: string[] }> {

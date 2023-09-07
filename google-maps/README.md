@@ -289,6 +289,7 @@ export default MyMap;
 * [`disableClustering()`](#disableclustering)
 * [`addMarker(...)`](#addmarker)
 * [`addMarkers(...)`](#addmarkers)
+* [`moveMarker(...)`](#movemarker)
 * [`removeMarker(...)`](#removemarker)
 * [`removeMarkers(...)`](#removemarkers)
 * [`addPolygons(...)`](#addpolygons)
@@ -414,6 +415,19 @@ addMarkers(markers: Marker[]) => Promise<string[]>
 | **`markers`** | <code>Marker[]</code> |
 
 **Returns:** <code>Promise&lt;string[]&gt;</code>
+
+--------------------
+
+
+### moveMarker(...)
+
+```typescript
+moveMarker(args: MoveMarkerArgs) => Promise<void>
+```
+
+| Param      | Type                                                      |
+| ---------- | --------------------------------------------------------- |
+| **`args`** | <code><a href="#movemarkerargs">MoveMarkerArgs</a></code> |
 
 --------------------
 
@@ -877,7 +891,7 @@ An interface containing the options used when creating a map.
 | **`id`**          | <code>string</code>                                         | A unique identifier for the map instance.                                                                                                                                              |                    |
 | **`apiKey`**      | <code>string</code>                                         | The Google Maps SDK API Key.                                                                                                                                                           |                    |
 | **`config`**      | <code><a href="#googlemapconfig">GoogleMapConfig</a></code> | The initial configuration settings for the map.                                                                                                                                        |                    |
-| **`element`**     | <code>HTMLElement</code>                                    | The DOM element that the Google Map View will be mounted on which determines size and positioning.                                                                                     |                    |
+| **`element`**     | <code><a href="#htmlelement">HTMLElement</a></code>         | The DOM element that the Google Map View will be mounted on which determines size and positioning.                                                                                     |                    |
 | **`forceCreate`** | <code>boolean</code>                                        | Destroy and re-create the map instance if a map with the supplied id already exists                                                                                                    | <code>false</code> |
 | **`region`**      | <code>string</code>                                         | The region parameter alters your application to serve different map tiles or bias the application (such as biasing geocoding results towards the region). Only available for web.      |                    |
 | **`language`**    | <code>string</code>                                         | The language parameter affects the names of controls, copyright notices, driving directions, and control labels, as well as the responses to service requests. Only available for web. |                    |
@@ -910,6 +924,9 @@ An interface representing a pair of latitude and longitude coordinates.
 | --------- | ------------------- | ------------------------------------------------------------------------- |
 | **`lat`** | <code>number</code> | Coordinate latitude, in degrees. This value is in the range [-90, 90].    |
 | **`lng`** | <code>number</code> | Coordinate longitude, in degrees. This value is in the range [-180, 180]. |
+
+
+#### HTMLElement
 
 
 #### MapReadyCallbackData
@@ -956,6 +973,23 @@ https://tools.ietf.org/html/rfc7946#section-3.1.2
 | ----------------- | --------------------------------------------- | ------------------------------------- |
 | **`type`**        | <code>'<a href="#point">Point</a>'</code>     | Specifies the type of GeoJSON object. |
 | **`coordinates`** | <code><a href="#position">Position</a></code> |                                       |
+
+
+#### Position
+
+| Prop         | Type                | Description |
+| ------------ | ------------------- | ----------- |
+| **`line`**   | <code>number</code> | &gt;= 1     |
+| **`column`** | <code>number</code> | &gt;= 0     |
+
+
+#### MoveMarkerArgs
+
+| Prop           | Type                                      |
+| -------------- | ----------------------------------------- |
+| **`id`**       | <code>string</code>                       |
+| **`position`** | <code><a href="#latlng">LatLng</a></code> |
+| **`markerId`** | <code>string</code>                       |
 
 
 #### Polygon

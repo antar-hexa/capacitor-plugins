@@ -20,6 +20,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import java.io.InputStream
 import java.net.URL
+import org.json.JSONObject
 
 
 class CapacitorGoogleMap(
@@ -411,6 +412,28 @@ class CapacitorGoogleMap(
                         polygons.remove(it)
                     }
                 }
+
+                callback(null)
+            }
+        } catch (e: GoogleMapsError) {
+            callback(e)
+        }
+    }
+
+
+    fun moveMarker(id: String, position:JSONObject, callback: (error: GoogleMapsError?) -> Unit) {
+        try {
+            googleMap ?: throw GoogleMapNotAvailable()
+
+            var marker = markers[id]
+            marker ?: throw MarkerNotFoundError()
+
+            CoroutineScope(Dispatchers.Main).launch {
+
+                if (!position.has("lat") || !position.has("lng")) {
+                    throw InvalidArgumentsError("position object is missing the required 'lat' and/or 'lng' property")
+                }
+                marker.googleMapMarker?.position = LatLng(position.getDouble("lat"), position.getDouble("lng"))
 
                 callback(null)
             }

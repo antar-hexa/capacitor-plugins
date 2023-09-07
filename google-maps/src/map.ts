@@ -19,9 +19,10 @@ import type {
   CircleClickCallbackData,
   Polyline,
   PolylineCallbackData,
+  LatLng,
 } from './definitions';
 import { LatLngBounds, MapType } from './definitions';
-import type { CreateMapArgs } from './implementation';
+import type { CreateMapArgs, MoveMarkerArgs } from './implementation';
 import { CapacitorGoogleMaps } from './implementation';
 
 export interface GoogleMapInterface {
@@ -40,6 +41,7 @@ export interface GoogleMapInterface {
   disableClustering(): Promise<void>;
   addMarker(marker: Marker): Promise<string>;
   addMarkers(markers: Marker[]): Promise<string[]>;
+  moveMarker(args: MoveMarkerArgs): Promise<void>;
   removeMarker(id: string): Promise<void>;
   removeMarkers(ids: string[]): Promise<void>;
   addPolygons(polygons: Polygon[]): Promise<string[]>;
@@ -399,6 +401,25 @@ export class GoogleMap {
     });
 
     return res.ids;
+  }
+
+  /**
+   * Moves a marker to another location
+   *
+   * @param markers
+   * @returns
+   */
+  async moveMarker(markerId: string, position:LatLng): Promise<void> {
+    console.log("moveMarker", {
+      id: this.id,
+      markerId: markerId,
+      position: position
+    });
+    await CapacitorGoogleMaps.moveMarker({
+      id: this.id,
+      markerId: markerId,
+      position: position
+    });
   }
 
   /**
