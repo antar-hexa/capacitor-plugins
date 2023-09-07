@@ -1,5 +1,6 @@
 package com.capacitorjs.plugins.googlemaps
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.*
 import android.location.Location
@@ -311,7 +312,7 @@ class CapacitorGoogleMap(
                     }
                     val googleMapPolyline = googleMap?.addPolyline(polylineOptions.await())
                     googleMapPolyline?.tag = it.tag
-                    
+
                     it.googleMapsPolyline = googleMapPolyline
 
                     polylines[googleMapPolyline!!.id] = it
@@ -420,6 +421,72 @@ class CapacitorGoogleMap(
         }
     }
 
+    fun updateMarker(id: String, options:JSONObject, callback: (error: GoogleMapsError?) -> Unit) {
+        try {
+            googleMap ?: throw GoogleMapNotAvailable()
+
+            var marker = markers[id]
+            marker ?: throw MarkerNotFoundError()
+
+            CoroutineScope(Dispatchers.Main).launch {
+
+                if (!options.has("position")){
+                    throw InvalidArgumentsError("options object is missing the required 'position' property")
+                }
+                if (!options.has("rotation")){
+                    throw InvalidArgumentsError("options object is missing the required 'rotation' property")
+                }
+                val position = options.getJSONObject("position")
+                val toRotation = options.getDouble("rotation")
+
+                if (!position.has("lat") || !position.has("lng")) {
+                    throw InvalidArgumentsError("position object is missing the required 'lat' and/or 'lng' property")
+                }
+
+                var animate = false;
+                var animationDuration: Long = 0;
+                if (options.getBoolean("animate")) {
+                    animate = true
+                    if (!options.has("animationDuration")){
+                        throw InvalidArgumentsError("options object is missing the required 'animationDuration' property as animate is true.")
+                    }
+                    animationDuration = options.getLong("animationDuration")
+                }
+
+                if(animate) {
+                    val fromPosition = marker.googleMapMarker?.position!!
+                    val toPosition = LatLng(position.getDouble("lat"), position.getDouble("lng"))
+
+                    val fromRotation = marker.googleMapMarker?.rotation!!
+
+                    ValueAnimator.ofFloat(0f, 1f).apply {
+                        duration = animationDuration
+                        start()
+                        addUpdateListener { updatedAnimation ->
+                            val fraction = updatedAnimation.animatedValue as Float
+
+                            val lng = fraction * toPosition.longitude + (1 - fraction) * fromPosition.longitude
+                            val lat = fraction * toPosition.latitude + (1 - fraction) * fromPosition.latitude
+                            val fractionRotation = fraction * toRotation + (1 - fraction) * fromRotation
+
+                            marker.googleMapMarker?.position = LatLng(lat, lng)
+                            marker.googleMapMarker?.rotation = fractionRotation.toFloat()
+                        }
+                    }
+
+
+                }
+                else {
+                    marker.googleMapMarker?.position = LatLng(position.getDouble("lat"), position.getDouble("lng"))
+                    marker.googleMapMarker?.rotation = toRotation.toFloat()
+                }
+
+                callback(null)
+            }
+        } catch (e: GoogleMapsError) {
+            callback(e)
+        }
+    }
 
     fun moveMarker(id: String, position:JSONObject, callback: (error: GoogleMapsError?) -> Unit) {
         try {
@@ -781,7 +848,7 @@ class CapacitorGoogleMap(
 
         return polygonOptions
     }
-    
+
     private fun buildPolyline(line: CapacitorGoogleMapPolyline): PolylineOptions {
         val polylineOptions = PolylineOptions()
         polylineOptions.width(line.strokeWidth * this.config.devicePixelRatio)

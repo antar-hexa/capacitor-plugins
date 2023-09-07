@@ -22,7 +22,7 @@ import type {
   LatLng,
 } from './definitions';
 import { LatLngBounds, MapType } from './definitions';
-import type { CreateMapArgs, MoveMarkerArgs } from './implementation';
+import type { CreateMapArgs, MoveMarkerArgs, UpdateMarkerArgs, UpdateMarkerOptionsArgs } from './implementation';
 import { CapacitorGoogleMaps } from './implementation';
 
 export interface GoogleMapInterface {
@@ -42,6 +42,7 @@ export interface GoogleMapInterface {
   addMarker(marker: Marker): Promise<string>;
   addMarkers(markers: Marker[]): Promise<string[]>;
   moveMarker(args: MoveMarkerArgs): Promise<void>;
+  updateMarker(args: UpdateMarkerArgs): Promise<void>;
   removeMarker(id: string): Promise<void>;
   removeMarkers(ids: string[]): Promise<void>;
   addPolygons(polygons: Polygon[]): Promise<string[]>;
@@ -409,11 +410,25 @@ export class GoogleMap {
    * @param markers
    * @returns
    */
-  async moveMarker(markerId: string, position:LatLng): Promise<void> {
+  async moveMarker(markerId: string, position: LatLng): Promise<void> {
     await CapacitorGoogleMaps.moveMarker({
       id: this.id,
       markerId: markerId,
       position: position
+    });
+  }
+
+  /**
+   * Updates a marker to another location
+   *
+   * @param markers
+   * @returns
+   */
+  async updateMarker(markerId: string, options: UpdateMarkerOptionsArgs): Promise<void> {
+    await CapacitorGoogleMaps.updateMarker({
+      id: this.id,
+      markerId: markerId,
+      options: options
     });
   }
 
@@ -423,7 +438,7 @@ export class GoogleMap {
    * @param markers
    * @returns
    */
-  async rotateMarker(markerId: string, degree:Number): Promise<void> {
+  async rotateMarker(markerId: string, degree: Number): Promise<void> {
     await CapacitorGoogleMaps.rotateMarker({
       id: this.id,
       markerId: markerId,

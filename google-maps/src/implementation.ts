@@ -145,6 +145,17 @@ export interface MoveMarkerArgs {
   position: LatLng;
   markerId: string;
 }
+export interface UpdateMarkerArgs {
+  id: string;
+  markerId: string;
+  options: UpdateMarkerOptionsArgs
+}
+export interface UpdateMarkerOptionsArgs {
+  position: LatLng;
+  animate: boolean;
+  animationDuration: number;
+  rotation: number;
+}
 export interface RotateMarkerArgs {
   id: string;
   degree: Number;
@@ -185,6 +196,7 @@ export interface CapacitorGoogleMapsPlugin extends Plugin {
   addMarker(args: AddMarkerArgs): Promise<{ id: string }>;
   addMarkers(args: AddMarkersArgs): Promise<{ ids: string[] }>;
   moveMarker(args: MoveMarkerArgs): Promise<void>;
+  updateMarker(args: UpdateMarkerArgs): Promise<void>;
   rotateMarker(args: RotateMarkerArgs): Promise<void>;
   removeMarker(args: RemoveMarkerArgs): Promise<void>;
   removeMarkers(args: RemoveMarkersArgs): Promise<void>;

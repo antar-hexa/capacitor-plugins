@@ -290,6 +290,7 @@ export default MyMap;
 * [`addMarker(...)`](#addmarker)
 * [`addMarkers(...)`](#addmarkers)
 * [`moveMarker(...)`](#movemarker)
+* [`updateMarker(...)`](#updatemarker)
 * [`removeMarker(...)`](#removemarker)
 * [`removeMarkers(...)`](#removemarkers)
 * [`addPolygons(...)`](#addpolygons)
@@ -428,6 +429,19 @@ moveMarker(args: MoveMarkerArgs) => Promise<void>
 | Param      | Type                                                      |
 | ---------- | --------------------------------------------------------- |
 | **`args`** | <code><a href="#movemarkerargs">MoveMarkerArgs</a></code> |
+
+--------------------
+
+
+### updateMarker(...)
+
+```typescript
+updateMarker(args: UpdateMarkerArgs) => Promise<void>
+```
+
+| Param      | Type                                                          |
+| ---------- | ------------------------------------------------------------- |
+| **`args`** | <code><a href="#updatemarkerargs">UpdateMarkerArgs</a></code> |
 
 --------------------
 
@@ -990,6 +1004,25 @@ https://tools.ietf.org/html/rfc7946#section-3.1.2
 | **`id`**       | <code>string</code>                       |
 | **`position`** | <code><a href="#latlng">LatLng</a></code> |
 | **`markerId`** | <code>string</code>                       |
+
+
+#### UpdateMarkerArgs
+
+| Prop           | Type                                                                        |
+| -------------- | --------------------------------------------------------------------------- |
+| **`id`**       | <code>string</code>                                                         |
+| **`markerId`** | <code>string</code>                                                         |
+| **`options`**  | <code><a href="#updatemarkeroptionsargs">UpdateMarkerOptionsArgs</a></code> |
+
+
+#### UpdateMarkerOptionsArgs
+
+| Prop                    | Type                                      |
+| ----------------------- | ----------------------------------------- |
+| **`position`**          | <code><a href="#latlng">LatLng</a></code> |
+| **`animate`**           | <code>boolean</code>                      |
+| **`animationDuration`** | <code>number</code>                       |
+| **`rotation`**          | <code>number</code>                       |
 
 
 #### Polygon
